@@ -25,9 +25,9 @@ exports.chat = functions.https.onRequest((request, response) => {
 
       // Use the OpenAI SDK to create chat completions
       const chatCompletion = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
+        model: 'gpt-3.5-turbo',
         messages: [{ role: 'user', content: message }],
-        max_tokens: 69
+        max_tokens: 69,
       });
 
       console.log('Received response from OpenAI API: ', chatCompletion);

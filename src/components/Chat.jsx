@@ -3,7 +3,8 @@ import { auth } from '../firebase';
 import { firestore as firebaseFirestore } from '../firebase';
 import SignIn from './SignIn';
 import '../index.css';
-import { collection, onSnapshot, query, doc, getDocs, addDoc, Timestamp, orderBy } from "firebase/firestore";
+import CircularProgress from '@mui/material/CircularProgress';
+import { collection, onSnapshot, query, doc, addDoc, Timestamp, orderBy } from "firebase/firestore";
 
 function Chat({ hideChat }) {
     const [users, setUsers] = useState([]);
@@ -11,6 +12,9 @@ function Chat({ hideChat }) {
     const [selectedUser, setSelectedUser] = useState(null);
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
+    const [showOffline, setShowOffline] = useState(true);
+    const [sortedUsers, setSortedUsers] = useState([]);
+    const [isSending, setIsSending] = useState(false);
 
     const getAIResponse = async (message) => {
         console.log('getAIResponse started with message: ', message);
@@ -52,10 +56,11 @@ function Chat({ hideChat }) {
     };
 
     const handleSendMessage = async () => {
+        setIsSending(true);
         try {
-            if (newMessage.trim() !== '' && currentUser && currentUser.email && selectedUser) {
-                // Extract username from the email
-                let currentUsername = currentUser.email;
+            if (newMessage.trim() !== '' && currentUser && selectedUser) {
+                // Check if the current user is anonymous
+                let currentUsername = currentUser.isAnonymous ? currentUser.uid : currentUser.email;
                 const domainToRemove = "@mceponis.com";
 
                 if (currentUsername.endsWith(domainToRemove)) {
@@ -94,13 +99,15 @@ function Chat({ hideChat }) {
         } catch (error) {
             console.error('Error in handleSendMessage: ', error);
         }
+        setIsSending(false);
     };
 
+    // Selecting new user for chat
     const handleUserClick = async (user) => {
         try {
             setSelectedUser(user);
-            // Extract username from the email
-            let currentUsername = currentUser.email;
+            // Check if the current user is anonymous
+            let currentUsername = currentUser.isAnonymous ? currentUser.uid : currentUser.email;
             const domainToRemove = "@mceponis.com";
 
             if (currentUsername.endsWith(domainToRemove)) {
@@ -125,6 +132,7 @@ function Chat({ hideChat }) {
         }
     };
 
+    // subscribe to database "Users" - store in currentUsers
     useEffect(() => {
         let unsubscribe;
 
@@ -150,12 +158,13 @@ function Chat({ hideChat }) {
         }
     }, []);
 
+    // Chat message updates on user click or change of current user
     useEffect(() => {
         let unsubscribe;
 
         if (selectedUser && currentUser != null) {
-            // Extract username from the email
-            let currentUsername = currentUser.email;
+            // Check if the current user is anonymous
+            let currentUsername = currentUser.isAnonymous ? currentUser.uid : currentUser.email;
             const domainToRemove = "@mceponis.com";
 
             if (currentUsername.endsWith(domainToRemove)) {
@@ -181,35 +190,53 @@ function Chat({ hideChat }) {
         }
     }, [selectedUser, currentUser]);
 
+    // Sender or reciever
     const getMessageClass = (message) => {
         return message.sentBy === (currentUser ? currentUser.uid : null) ? 'chat-message' : 'chat-message-other';
     };
+
+    // sort by online status
+    useEffect(() => {
+        setSortedUsers([...users].sort((a, b) => b.isOnline - a.isOnline));
+    }, [users]);
 
     return (
         <div className='chat-main'>
             <div className='chat-contet'>
                 <SignIn />
-                <button onClick={hideChat}>Home</button>
+                <div className='chat-button-content'>
+                    <button onClick={hideChat}>Home</button>
+                </div>
                 <div className='main-content'>
                     <div>
-                        {/* List of signed in users */}
+                        {/* User view */}
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={showOffline}
+                                onChange={() => setShowOffline(!showOffline)}
+                            />
+                            Show Offline Users
+                        </label>
                         <ul>
-                            {users.map(user => (
-                                <li key={user.id}>
-                                    <div className='user-button'>
-                                        <button onClick={() => handleUserClick(user)}>
-                                            {user.isOnline ? <span style={{ color: 'green', paddingRight: '3px' }}>● </span> : <span style={{ paddingRight: '13px' }} />}
-                                            <img
-                                                src={user.profileImage || "https://yourteachingmentor.com/wp-content/uploads/2020/12/istockphoto-1223671392-612x612-1.jpg"}
-                                                className='select-user-img'
-                                                alt=""
-                                                height={'21'}
-                                                width="21"
-                                            />
-                                            {user.username}
-                                        </button>
-                                    </div>
-                                </li>
+                            {sortedUsers.map(user => (
+                                (user.isOnline || showOffline) && (
+                                    <li key={user.id}>
+                                        <div className='user-button'>
+                                            <button onClick={() => handleUserClick(user)}>
+                                                {user.isOnline ? <span style={{ color: 'green', paddingRight: '3px' }}>● </span> : <span style={{ paddingRight: '13px' }} />}
+                                                <img
+                                                    src={user.profileImage || "https://yourteachingmentor.com/wp-content/uploads/2020/12/istockphoto-1223671392-612x612-1.jpg"}
+                                                    className='select-user-img'
+                                                    alt=""
+                                                    height="21"
+                                                    width="21"
+                                                />
+                                                {user.username}
+                                            </button>
+                                        </div>
+                                    </li>
+                                )
                             ))}
                         </ul>
                     </div>
@@ -247,7 +274,9 @@ function Chat({ hideChat }) {
                                     value={newMessage}
                                     onChange={(e) => setNewMessage(e.target.value)}
                                 />
-                                <button onClick={handleSendMessage}>Send</button>
+                                <button className='chat-send-button' onClick={handleSendMessage} disabled={isSending}>
+                                    {isSending ? <CircularProgress size={24} /> : 'Send'}
+                                </button>
                             </div>
                         </div>
                     </div>

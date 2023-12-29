@@ -71,7 +71,7 @@ const SignIn = () => {
                     });
             }
         });
-    };    
+    };
 
     const signInAnonymously = () => {
         signInAnonymouslyFirebase(firebaseAuth)
@@ -210,7 +210,9 @@ const SignIn = () => {
     return (
         <div className='username-select'>
             {isSignedIn ? (
-                <button onClick={handleSignOut}>Sign Out</button>
+                <div className='username-button-content'>
+                    <button onClick={handleSignOut}>Sign Out</button>
+                </ div>
             ) : (
                 <>
                     <input value={username} onChange={handleUsernameChange} placeholder="Username (6 char min)" />
