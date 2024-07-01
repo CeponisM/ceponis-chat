@@ -15,9 +15,12 @@ function Chat({ hideChat }) {
     const [showOffline, setShowOffline] = useState(true);
     const [sortedUsers, setSortedUsers] = useState([]);
     const [isSending, setIsSending] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     const getAIResponse = async (message) => {
-        console.log('getAIResponse started with message: ', message);
+        setIsLoading(true);
+        setError(null);
         try {
             // Make a request to your server-side function
             const response = await fetch('https://us-central1-chat-7f392.cloudfunctions.net/chat', {
@@ -49,9 +52,10 @@ function Chat({ hideChat }) {
             return data.message;
         } catch (error) {
             console.error('Error in getAIResponse: ', error);
-            return `An error occurred: ${error.message}`;
+            setError('Failed to get AI response. Please try again.');
+            return null;
         } finally {
-            console.log('getAIResponse finished');
+            setIsLoading(false);
         }
     };
 
@@ -202,7 +206,7 @@ function Chat({ hideChat }) {
 
     return (
         <div className='chat-main'>
-            <div className='chat-contet'>
+            <div className='chat-content'>
                 <SignIn />
                 <div className='chat-button-content'>
                     <button onClick={hideChat}>Home</button>
@@ -242,6 +246,9 @@ function Chat({ hideChat }) {
                     </div>
                     {/* Message view */}
                     <div>
+
+                        {isLoading && <p>Loading...</p>}
+                        {error && <p role="alert" className="error">{error}</p>}
 
                         <div className='chat-messages'>
                             <div className='selectedUserName'>{selectedUser ? selectedUser.username : 'Select a user'}</div>
