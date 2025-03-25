@@ -12,7 +12,7 @@ function Chat({ hideChat }) {
     const [selectedUser, setSelectedUser] = useState(null);
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
-    const [showOffline, setShowOffline] = useState(true);
+    const [showOffline, setShowOffline] = useState(false);
     const [sortedUsers, setSortedUsers] = useState([]);
     const [isSending, setIsSending] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -222,27 +222,29 @@ function Chat({ hideChat }) {
                             />
                             Show Offline Users
                         </label>
-                        <ul>
-                            {sortedUsers.map(user => (
-                                (user.isOnline || showOffline) && (
-                                    <li key={user.id}>
-                                        <div className='user-button'>
-                                            <button onClick={() => handleUserClick(user)}>
-                                                {user.isOnline ? <span style={{ color: 'green', paddingRight: '3px' }}>● </span> : <span style={{ paddingRight: '13px' }} />}
-                                                <img
-                                                    src={user.profileImage || "https://yourteachingmentor.com/wp-content/uploads/2020/12/istockphoto-1223671392-612x612-1.jpg"}
-                                                    className='select-user-img'
-                                                    alt=""
-                                                    height="21"
-                                                    width="21"
-                                                />
-                                                {user.username}
-                                            </button>
-                                        </div>
-                                    </li>
-                                )
-                            ))}
-                        </ul>
+                        {currentUser && (
+                            <ul>
+                                {sortedUsers.map(user => (
+                                    (user.isOnline || showOffline) && (
+                                        <li key={user.id}>
+                                            <div className='user-button'>
+                                                <button onClick={() => handleUserClick(user)}>
+                                                    {user.isOnline ? <span style={{ color: 'green', paddingRight: '3px' }}>● </span> : <span style={{ paddingRight: '13px' }} />}
+                                                    <img
+                                                        src={user.profileImage || "https://yourteachingmentor.com/wp-content/uploads/2020/12/istockphoto-1223671392-612x612-1.jpg"}
+                                                        className='select-user-img'
+                                                        alt=""
+                                                        height="21"
+                                                        width="21"
+                                                    />
+                                                    {user.username}
+                                                </button>
+                                            </div>
+                                        </li>
+                                    )
+                                ))}
+                            </ul>
+                        )}
                     </div>
                     {/* Message view */}
                     <div>
