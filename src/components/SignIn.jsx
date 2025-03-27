@@ -181,13 +181,22 @@ const SignIn = () => {
                     <button onClick={handleSignOut}>Sign Out</button>
                 </div>
             ) : (
-                <>
-                    <input value={username} onChange={handleUsernameChange} placeholder="Username (6 char min)" />
-                    <input value={password} onChange={handlePasswordChange} placeholder="Password (6 char min)" type="password" />
-                    <button onClick={signIn}>Register/Sign-in</button>
+                <div className='signin-form-container'>
+                    <input
+                        value={username}
+                        onChange={handleUsernameChange}
+                        placeholder="Username (6 char min)"
+                    />
+                    <input
+                        value={password}
+                        onChange={handlePasswordChange}
+                        placeholder="Password (6 char min)"
+                        type="password"
+                    />
+                    <button onClick={signIn}>Register / Sign-in</button>
                     <button onClick={signInAnonymously}>Sign In Anonymously</button>
                     {error && <p className="error" role="alert">{error}</p>}
-                </>
+                </div>
             )}
         </div>
     );

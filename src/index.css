@@ -349,3 +349,57 @@ input:checked + .slider:before {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
+
+/* Sign-in Form Enhancements */
+.signin-form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  max-width: 360px;
+  margin: 0 auto;
+  padding: 1em;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+}
+
+.signin-form-container input {
+  padding: 0.8em;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 100%;
+  font-size: 1em;
+}
+
+.signin-form-container input:focus {
+  border-color: #646cff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(100, 108, 255, 0.5);
+}
+
+.signin-form-container button {
+  width: 100%;
+  font-weight: 600;
+  font-size: 1em;
+  margin-top: 6px;
+  background-color: #646cff;
+  color: white;
+}
+
+.signin-form-container button:hover {
+  background-color: #4d56c4;
+}
+
+.signin-form-container .error {
+  color: #e63946;
+  background-color: #ffe0e3;
+  border: 1px solid #e63946;
+  padding: 0.5em;
+  border-radius: 6px;
+  margin-top: 6px;
+  width: 100%;
+  text-align: center;
+}
