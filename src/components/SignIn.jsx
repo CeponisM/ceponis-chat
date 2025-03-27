@@ -175,13 +175,13 @@ const SignIn = () => {
     }, []);
 
     return (
-        <div className='username-select'>
+        <div className={`username-select`}>
             {isSignedIn ? (
                 <div className='username-button-content'>
                     <button onClick={handleSignOut}>Sign Out</button>
                 </div>
             ) : (
-                <div className='signin-form-container'>
+                <div className={`signin-form-container`}>
                     <input
                         value={username}
                         onChange={handleUsernameChange}
