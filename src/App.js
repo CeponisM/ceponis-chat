@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Chat from './components/Chat';
-import styles from './index.css';
+import './index.css';
 
 function App() {
     const [showChat, setShowChat] = useState(false);
@@ -16,31 +16,33 @@ function App() {
 
     return (
         <div className={isNightMode ? 'main-app night-mode' : 'main-app'}>
-            <div className={styles.App}>
+            <div className="App">
                 <header>
                     <h1>Ceponis Chat</h1>
                 </header>
                 <main>
-                    <span className='night-mode-section' style={{ marginLeft: '10px' }}>Night Mode &nbsp;
+                    <span className="night-mode-section">
+                        Night Mode &nbsp;
                         <label className="switch">
                             <input type="checkbox" onChange={handleToggle} />
                             <span className="slider round"></span>
                         </label>
                     </span>
-
-                    {showChat ? <Chat hideChat={hideChat} /> :
-                        <div className='main-button-section'>
+                    {showChat ? <Chat hideChat={hideChat} /> : (
+                        <div className="main-button-section">
                             <button
-                                className='main-buttons'
+                                className="main-buttons"
                                 onClick={() => window.location.href = 'https://github.com/CeponisM/ceponis-chat'}
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
                                 Source Code
                             </button>
-                            <button className='main-buttons' onClick={() => setShowChat(true)}>Chat Now</button>
+                            <button className="main-buttons" onClick={() => setShowChat(true)}>
+                                Chat Now
+                            </button>
                         </div>
-                    }
+                    )}
                 </main>
             </div>
         </div>

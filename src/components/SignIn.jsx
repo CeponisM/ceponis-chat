@@ -12,8 +12,8 @@ import firebase from 'firebase/compat/app';
 
 const SignIn = () => {
     const [uid, setUid] = useState(null);
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [username, setUsername] = useState('testing');
+    const [password, setPassword] = useState('testing');
     const [isSignedIn, setIsSignedIn] = useState(false);
     const [error, setError] = useState('');
 

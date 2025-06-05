@@ -15,6 +15,7 @@
   padding: 2rem;
   text-align: center;
   margin-bottom: 21px;
+  min-height: 100%;
 }
 
 a {
@@ -28,11 +29,13 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  justify-content: center;
   min-width: 320px;
   min-height: 100vh;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff;
 }
 
 ul li {
@@ -67,9 +70,39 @@ button:focus-visible {
   margin: 12px;
 }
 
+
+.chat-main {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.chat-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
 .main-content {
   display: flex;
   flex-direction: row;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.chat-messages {
+  min-width: 390px;
+  max-width: 999px;
+  max-height: 60vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  margin-top: 9px;
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: inherit;
 }
 
 /* Base styles for both received and sent messages */
@@ -194,10 +227,12 @@ button:focus-visible {
 
 .main-app {
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
+  height: auto;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  background-color: inherit;
 }
 
 .night-mode {
@@ -334,7 +369,7 @@ input:checked + .slider:before {
 .chat-main {
   display: flex;
   flex-direction: column;
-  height: 100%; /* Full viewport height */
+  height: auto; /* Full viewport height */
 }
 
 .chat-content {
