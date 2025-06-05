@@ -27,7 +27,7 @@ function Chat({ hideChat }) {
         setIsLoading(true);
         setError(null);
         try {
-            const response = await fetch('https://us-central1-chat-7f392.cloudfunctions.net/chat', {
+            const response = await fetch(process.env.REACT_APP_CHAT_API_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message }),
