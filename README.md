@@ -20,20 +20,20 @@
 
 ## 🔧 Setup
 
-1. **Clone the repository**
+### 1. **Clone the repository**
 
 ```bash
 git clone https://github.com/CeponisM/ceponis-chat.git
 cd ceponis-chat
 ```
 
-2. **Install dependencies**
+### 2. **Install dependencies**
 
 ```bash
 npm install
 ```
 
-3. **Create a `/src/firebase.js` file**
+### 3. **Create a `/src/firebase.js` file**
 
 ```firebase
 import { initializeApp } from "firebase/app";
@@ -59,14 +59,14 @@ export const db = getFirestore(app);
 export const storage = getStorage(app);
 ```
 
-4. **Deploy Firebase Functions**
+### 4. **Deploy Firebase Functions**
 
 This step sets up Firebase Cloud Functions to handle AI responses via the OpenAI API.
 
 ### 4.1 Prerequisites
 
 Before proceeding, ensure you have:
-- **Node.js and npm**: Install [Node.js](https://nodejs.org/) (version 14 or higher recommended)
+- **Node.js and npm**: Install [Node.js](https://nodejs.org/) (version 18 or higher recommended)
 - **Firebase CLI**: Install globally with `npm install -g firebase-tools`
 - **Firebase Account**: Sign up at [Firebase Console](https://console.firebase.google.com/)
 - **OpenAI API Key**: Obtain from the [OpenAI API dashboard](https://platform.openai.com/api-keys)
@@ -156,17 +156,6 @@ curl -X POST http://localhost:5001/chat-#####/us-central1/chat \
   -d '{"message": "Hello"}'
 ```
 
-#### Production Testing
-Test the deployed function via the chat app:
-
-1. Run the frontend locally:
-   ```bash
-   npm start
-   ```
-
-2. Open the app, sign in, select the AI agent, and send a message
-3. Verify that AI responses are received correctly
-
 **Function Not Responding:**
 Check Firebase logs:
 ```bash
@@ -177,8 +166,14 @@ firebase functions:log
 - Verify the key is correctly set: `firebase functions:config:get`
 - Ensure the key is valid in the OpenAI dashboard
 
-5. **Start the app**
+### 5. **Start the app**
 
-```bash
-npm start
-```
+Test the deployed function via the chat app:
+
+1. Run the frontend locally:
+   ```bash
+   npm start
+   ```
+
+2. Open the app, sign in, select the AI agent, and send a message
+3. Verify that AI responses are received 
